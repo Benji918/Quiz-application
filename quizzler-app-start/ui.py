@@ -11,7 +11,6 @@ class Quizinterface:
         self.quiz = quiz_brain
         self.window = Tk()
         self.window.title('Quiz application')
-        # self.window.geometry('400x700')
         self.window.config(background=THEME_COLOR, padx=20, pady=20)
 
         # Label
@@ -47,10 +46,12 @@ class Quizinterface:
     def anwser_true(self):
         q_anwser = 'True'
         self.give_feedback(self.quiz.check_answer(q_anwser))
+        self.true_btn.config(state=DISABLED)
 
     def anwser_false(self):
         q_anwser = 'False'
         self.give_feedback(self.quiz.check_answer(q_anwser))
+        self.false_btn.config(state=DISABLED)
 
     def get_question(self):
         q_text = self.quiz.next_question()
@@ -62,6 +63,8 @@ class Quizinterface:
             self.score.config(text=f'Score:{self.quiz.score}')
             next_question = self.quiz.next_question()
             self.canvas.itemconfig(self.question_text, text=next_question)
+            self.true_btn.config(state=ACTIVE)
+            self.false_btn.config(state=ACTIVE)
         else:
             self.canvas.itemconfig(self.question_text, text='Sorry, you have reached the end of the quiz!!!')
             self.true_btn.config(state=DISABLED)
@@ -73,6 +76,7 @@ class Quizinterface:
             self.canvas.config(bg='green')
         else:
             self.canvas.config(bg='red')
+
         self.window.after(1000, func=self.next_question)
 
         # Get the questions again from the beginning
